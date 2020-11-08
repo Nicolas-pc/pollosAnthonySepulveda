@@ -1,2 +1,2 @@
-pip install gunicorn
-pip install django-heroku
+gunicorn
+django-heroku
