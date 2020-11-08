@@ -55,7 +55,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'pollosAnthonySepulveda.urls'
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'sitio/static')]
 
 TEMPLATES = [
     {
