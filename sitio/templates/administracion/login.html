@@ -4,15 +4,14 @@
 <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 <link rel="stylesheet" href="{% static 'fa/css/all.min.css' %}">
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'admin/login.css' %}">
 
-<link rel="stylesheet" type="text/css" href="{% static 'sitio/index.css' %}">
+<h2>Iniciar sesión</h2>
 
-<nav class="navbar">
-  <a class="navbar-brand" href="#">
-  <div class="title">Pollos Anthony Sepulveda</div>
-  </a>
-</nav>
-<div class="contenedor">
-<div >aqui existirá el contenido</div>
+<form method="POST">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <button type="submit">Login</button>
+</form>
 
-</div>
+<hr />

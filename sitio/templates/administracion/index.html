@@ -1,0 +1,80 @@
+{% load static %}
+<script src="{% static 'jquery/jquery-3.5.1.min.js' %}"></script>
+<script src="{% static 'popper/popper.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'fa/css/all.min.css' %}">
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'administracion/index.css' %}">
+
+<div>
+    <h2>Área para miembros</h2>
+Bienvenido <b>{{request.user.username}}</b>
+</div>
+<div class="contenedor_estados">
+    Recibidos
+    {% for i in Pedidos_recibidos %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Pedido N°{{i.id_pedido}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{i.Fecha}}</h6>
+            <p class="card-text">
+                Estado:{{i.id_estado.Nombre}}
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+<div class="contenedor_estados">
+    En Proceso
+    {% for i in Pedidos_en_proceso %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Pedido N°{{i.id_pedido}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{i.Fecha}}</h6>
+            <p class="card-text">
+                Estado:{{i.id_estado.Nombre}}
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+<div class="contenedor_estados">
+    Finalizados
+    {% for i in Pedidos_finalizados %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Pedido N°{{i.id_pedido}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{i.Fecha}}</h6>
+            <p class="card-text">
+                Estado:{{i.id_estado.Nombre}}
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+<div class="contenedor_estados">
+    Pagados
+    {% for i in Pedidos_pagados %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">Pedido N°{{i.id_pedido}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{i.Fecha}}</h6>
+            <p class="card-text">
+                Estado:{{i.id_estado.Nombre}}
+            </p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+<hr />
+
+
+<a href="/admin/logout">Cerrar sesión</a>
