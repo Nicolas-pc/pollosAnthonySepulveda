@@ -5,8 +5,59 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login as do_login
 from django import http
 from .models import *
+from django.forms.models import model_to_dict
 # Create your views here.
 from django.http import HttpResponse
+from django.http import JsonResponse
+from django.core import serializers
+import json
+import datetime
+def myconverter(o):
+    if isinstance(o, datetime.datetime):
+        return o.__str__()
+
+def updateRequest(request):
+    recibidos = Pedido.objects.filter(id_estado=1)
+    enproceso = Pedido.objects.filter(id_estado=2)
+    finalizados = Pedido.objects.filter(id_estado=3)
+    pagados = Pedido.objects.filter(id_estado=4)
+    pedidos = []
+    lista_recibidos = []
+    lista_enproceso = []
+    lista_finalizados = []
+    lista_pagados = []
+    for row in recibidos:
+        detalles= Detalle_Pedido.objects.filter(id_pedido=row.id_pedido)
+        detalle=[]
+        for row2 in detalles:
+            detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
+            'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
+        lista_recibidos.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha})
+    for row in enproceso:
+        detalles= Detalle_Pedido.objects.filter(id_pedido=row.id_pedido)
+        detalle=[]
+        for row2 in detalles:
+            detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
+            'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
+        lista_enproceso.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha})
+    for row in finalizados:
+        detalles= Detalle_Pedido.objects.filter(id_pedido=row.id_pedido)
+        detalle=[]
+        for row2 in detalles:
+            detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
+            'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
+        lista_finalizados.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha})
+    for row in pagados:
+        detalles= Detalle_Pedido.objects.filter(id_pedido=row.id_pedido)
+        detalle=[]
+        for row2 in detalles:
+            detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
+            'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
+        lista_pagados.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha})
+    pedidos= {'recibidos':lista_recibidos,'enproceso':lista_enproceso, 'finalizados':lista_finalizados,'pagados':lista_pagados}
+    list_json = json.dumps(pedidos,default=myconverter) #dump list as JSON
+    return JsonResponse(pedidos,safe=False)
+
 
 def index(request):
     return render(request, 'sitio/index.html')

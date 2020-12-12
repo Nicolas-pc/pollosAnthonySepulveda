@@ -11,6 +11,7 @@ def validate_file_extension(value):
         raise ValidationError('Archivo no soportado, solo se admiten archivos .pdf')
 
 # Create your models here.
+
 class Cliente(models.Model): 
     id_cliente = models.AutoField(primary_key=True)
     Nombres = models.CharField(max_length = 50)
@@ -68,7 +69,7 @@ class Detalle_Pedido(models.Model):
     def __str__(self):
         return 'Pedido N°'+str(self.id_pedido.id_pedido)+': Detalle N°'+str(self.id_detalle_pedido)
     def save(self,*args, **kwargs ):
-        self.Precio=self.id_producto.Precio*self.Cantidad
+        self.Precio=self.id_producto.Precio
         super(Detalle_Pedido, self).save(*args, **kwargs)
 
 class Menu(models.Model):
@@ -96,3 +97,9 @@ class PedidoForm(ModelForm):
     class Meta:
         model = Pedido
         fields = ['id_cliente','Fecha','id_estado']
+
+class Tablero(Pedido):
+    class Meta:
+        proxy = True
+        verbose_name = 'Tablero'
+        verbose_name_plural = 'Tablero de pedidos'

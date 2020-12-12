@@ -2,8 +2,14 @@ h2{
     text-align: center;
 }
 .contenedor_estados{
-    justify-content: center;
     display: inline-flex;
-    width: 24%;
+    width: 100%;
     flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    
+}
+.contenedor_estados > div{
+    width: 24%;
+    min-width: 290px;
 }
