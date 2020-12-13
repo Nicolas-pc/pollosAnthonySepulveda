@@ -74,7 +74,7 @@ class Detalle_Pedido(models.Model):
 
 class Menu(models.Model):
     id = models.AutoField(primary_key=True, default=1)
-    pdf = models.FileField(validators=[validate_file_extension],upload_to='uploads',verbose_name='Archivo con Menu')
+    pdf = models.FileField(validators=[validate_file_extension],upload_to='app/uploads',verbose_name='Archivo con Menu')
     def save(self, *args, **kwargs):
         if Menu.objects.count() == 1:
             Menu.objects.first().delete()
@@ -84,7 +84,7 @@ class Menu(models.Model):
 
 class Images(models.Model):
     id = models.AutoField(primary_key=True)
-    Image = models.ImageField(upload_to='uploads',verbose_name='imagen')
+    Image = models.ImageField(upload_to='app/uploads',verbose_name='imagen')
 
 class ClienteForm(ModelForm):
     class Meta:
