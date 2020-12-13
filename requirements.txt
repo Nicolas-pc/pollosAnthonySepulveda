@@ -3,3 +3,4 @@ django-heroku
 whitenoise
 python-dotenv
 django-cors-headers
+pillow
