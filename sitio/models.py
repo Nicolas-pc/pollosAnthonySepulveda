@@ -2,6 +2,7 @@ from django.db import models
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ModelForm
+from cloudinary.models import CloudinaryField
 def validate_file_extension(value):
     import os
     from django.core.exceptions import ValidationError
@@ -84,7 +85,7 @@ class Menu(models.Model):
 
 class Images(models.Model):
     id = models.AutoField(primary_key=True)
-    Image = models.ImageField(upload_to='uploads',verbose_name='imagen')
+    Image = CloudinaryField('Image')
 
 class ClienteForm(ModelForm):
     class Meta:

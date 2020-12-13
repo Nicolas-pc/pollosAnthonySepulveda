@@ -14,6 +14,8 @@ import os
 from pathlib import Path
 import dj_database_url
 import dotenv
+import cloudinary
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 dotenv_file = os.path.join(BASE_DIR, ".env")
@@ -66,10 +68,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders'
-
+    'corsheaders',
+    'cloudinary'
 ]
-
+cloudinary.config(
+  cloud_name = 'hzz4wpuqn',
+  api_key = '312961114118928',
+  api_secret = 'CZ8ndcP84ldXp38bKgnpRVxhpQs',
+  secure = True
+)
 MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -86,9 +93,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'pollosAnthonySepulveda.urls'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'sitio/static')]
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads').replace('\\','/')
 
-MEDIA_URL = 'uploads/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
