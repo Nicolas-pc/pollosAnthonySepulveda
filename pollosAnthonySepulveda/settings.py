@@ -86,7 +86,9 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'pollosAnthonySepulveda.urls'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'sitio/static')]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
+MEDIA_URL = '/uploads/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

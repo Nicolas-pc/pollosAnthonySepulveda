@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cliente, Menu,Pedido,Detalle_Pedido,Producto,Observacion,Estado,Tablero
+from .models import Cliente, Menu,Pedido,Detalle_Pedido,Producto,Observacion,Estado,Tablero,Images
 class DetallePedidoInline(admin.TabularInline):
     extra = 0
     model = Detalle_Pedido
@@ -17,6 +17,7 @@ admin.site.register(Estado)
 admin.site.register(Producto)
 admin.site.register(Menu)
 admin.site.register(Observacion)
+admin.site.register(Images)
 @admin.register(Tablero)
 class TableroAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):

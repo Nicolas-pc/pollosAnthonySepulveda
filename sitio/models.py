@@ -82,6 +82,10 @@ class Menu(models.Model):
     def __str__(self):
             return self.pdf.name
 
+class Images(models.Model):
+    id = models.AutoField(primary_key=True)
+    Image = models.ImageField(upload_to='uploads',verbose_name='imagen')
+
 class ClienteForm(ModelForm):
     class Meta:
         model = Cliente

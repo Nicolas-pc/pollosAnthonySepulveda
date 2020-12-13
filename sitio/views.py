@@ -15,12 +15,26 @@ import datetime
 def myconverter(o):
     if isinstance(o, datetime.datetime):
         return o.__str__()
+def changeState(request):
+    print(Pedido.objects.filter(pk=request.GET.get('req')))
+    actualestado=Pedido.objects.get(pk=request.GET.get('req')).id_estado.pk
+    if(actualestado<4):
+        Pedido.objects.filter(pk=request.GET.get('req')).update(id_estado=actualestado+1)
+    return HttpResponse('listo')
 
 def updateRequest(request):
-    recibidos = Pedido.objects.filter(id_estado=1)
-    enproceso = Pedido.objects.filter(id_estado=2)
-    finalizados = Pedido.objects.filter(id_estado=3)
-    pagados = Pedido.objects.filter(id_estado=4)
+    today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
+    today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
+    recibidos = Pedido.objects.filter(id_estado=1
+    #,Fecha__range=(today_min, today_max)
+    )
+    enproceso = Pedido.objects.filter(id_estado=2
+    #,Fecha__range=(today_min, today_max)
+    )
+    finalizados = Pedido.objects.filter(id_estado=3#,Fecha__range=(today_min, today_max)
+    )
+    pagados = Pedido.objects.filter(id_estado=4#,Fecha__range=(today_min, today_max)
+    )
     pedidos = []
     lista_recibidos = []
     lista_enproceso = []
@@ -32,35 +46,46 @@ def updateRequest(request):
         for row2 in detalles:
             detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
             'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
-        lista_recibidos.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha})
+        lista_recibidos.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha,
+        'Cliente':row.id_cliente.Nombres+' '+row.id_cliente.Primer_Apellido,'Telefono':row.id_cliente.Telefono,
+        'Direccion':row.id_cliente.Direccion})
     for row in enproceso:
         detalles= Detalle_Pedido.objects.filter(id_pedido=row.id_pedido)
         detalle=[]
         for row2 in detalles:
             detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
             'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
-        lista_enproceso.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha})
+        lista_enproceso.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha,
+        'Cliente':row.id_cliente.Nombres+' '+row.id_cliente.Primer_Apellido,'Telefono':row.id_cliente.Telefono,
+        'Direccion':row.id_cliente.Direccion})
     for row in finalizados:
         detalles= Detalle_Pedido.objects.filter(id_pedido=row.id_pedido)
         detalle=[]
         for row2 in detalles:
             detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
             'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
-        lista_finalizados.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha})
+        lista_finalizados.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha,
+        'Cliente':row.id_cliente.Nombres+' '+row.id_cliente.Primer_Apellido,'Telefono':row.id_cliente.Telefono,
+        'Direccion':row.id_cliente.Direccion})
     for row in pagados:
         detalles= Detalle_Pedido.objects.filter(id_pedido=row.id_pedido)
         detalle=[]
         for row2 in detalles:
             detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
             'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
-        lista_pagados.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha})
+        lista_pagados.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha,
+        'Cliente':row.id_cliente.Nombres+' '+row.id_cliente.Primer_Apellido,'Telefono':row.id_cliente.Telefono,
+        'Direccion':row.id_cliente.Direccion})
     pedidos= {'recibidos':lista_recibidos,'enproceso':lista_enproceso, 'finalizados':lista_finalizados,'pagados':lista_pagados}
     list_json = json.dumps(pedidos,default=myconverter) #dump list as JSON
     return JsonResponse(pedidos,safe=False)
 
 
 def index(request):
-    return render(request, 'sitio/index.html')
+    context = {
+        'images':Images.objects.all()
+    }
+    return render(request, 'sitio/index.html',context)
 
 def welcome(request):
     # if this is a POST request we need to process the form data

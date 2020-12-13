@@ -1,34 +1,57 @@
 {% extends 'admin/change_list.html' %}
 {% block content_title %}
-<center><h1> Tablero de pedidos</h1></center>
+<center>
+    <h1> Tablero de pedidos</h1>
+</center>
 {% endblock %}
 {% block result_list %}
 {% load static %}
-<script src="{% static 'js/tablero.js' %}"></script>  
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 <script src="{% static 'jquery/jquery-3.5.1.min.js' %}"></script>
 <script src="{% static 'popper/popper.min.js' %}"></script>
-<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-<link rel="stylesheet" href="{% static 'fa/css/all.min.css' %}">
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-<link rel="stylesheet" type="text/css" href="{% static 'administracion/index.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'admin/tablero.css' %}">
+<script src="{% static 'js/tablero.js' %}"></script>
 <div class="contenedor_estados">
-<div >
-    Recibidos
-    <span id=recibido></span>
-</div>
-<div>
-    En Proceso
-    <span id=enproceso></span>
-</div>
-<div>
-    Finalizados
-    <span id=finalizado></span>
-</div>
-<div>
-    Pagados
-    <span id=pagado></span>
-</div>
+    <div class="seccion-recibidos">
+        Recibidos
+        <span id=recibidos></span>
+    </div>
+    <div class="seccion-enproceso">
+        En Proceso
+        <span id=enproceso></span>
+    </div>
+    <div class="seccion-finalizados">
+        Finalizados
+        <span id=finalizados></span>
+    </div>
+    <div class="seccion-pagados">
+        Pagados
+        <span id=pagados></span>
+    </div>
 </div>
 <hr />
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmación</h5>
+                <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+            </div>
+            <div class="modal-body">
+                <p>¿Está seguro de realizar la operación?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"onclick="closeModal()">Cancelar</button>
+                <button type="button" class="btn btn-primary" onclick="changeState()">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 {% block pagination %}{% endblock %}

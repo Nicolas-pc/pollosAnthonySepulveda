@@ -1,0 +1,112 @@
+h1 {
+    font-family: "Source Sans Pro", sans-serif;
+}
+.contenedor_estados {
+    font-family: "Source Sans Pro", sans-serif;
+    display: inline-flex;
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+.contenedor_estados > div {
+    width: 24%;
+    min-width: 290px;
+    min-height: 200px;
+    position: relative;
+}
+.seccion-recibidos {
+    background: cornflowerblue;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}
+.seccion-enproceso {
+    background: coral;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}
+.seccion-finalizados {
+    background: navy;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}
+.seccion-pagados {
+    background: yellowgreen;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+}
+.hora {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-weight: normal;
+    font-size: 12px;
+}
+.hora > svg {
+    color:black;
+}
+.n_pedido {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-weight: normal;
+    font-size: 12px;
+}
+.submit {
+    border-radius: 20px;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+}
+
+.card {
+    background-color: mintcream;
+    margin: 10px auto;
+    color: black;
+}
+.card-title {
+    font-weight: 700;
+}
+.card-subtitle {
+    font-weight: 400;
+}
+.card-text {
+    font-weight: 400;
+    font-size: 16px;
+    border: 1px solid rgba(240, 240, 240, 1);
+    border-radius: 5px;
+    background-color: white;
+}
+.total {
+    border-top: 1px solid black;
+}
+.btn:hover {
+    cursor: pointer;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+}
+.btn:active {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.23);
+}
+.btn:disabled {
+    background: #d3d3d3;
+    box-shadow: none;
+}
+.icon-submit,
+.phone {
+    color: green;
+}
+.address {
+    color: orangered;
+}
+.modal-dialog{
+    top: 30%;
+}
