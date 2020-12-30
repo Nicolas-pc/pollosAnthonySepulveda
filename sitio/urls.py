@@ -9,6 +9,7 @@ urlpatterns = [
     path('admin/login', views.login),
     path('admin/logout', views.logout),
     path('', views.index, name='index'),
+    path('success',views.success,name='success'),
     
     url(r'^admin/updateRequest/$', views.updateRequest, name='updateRequest'),
     url(r'^admin/changeState/$', views.changeState, name='changeState'), 

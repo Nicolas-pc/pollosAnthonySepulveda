@@ -6,6 +6,7 @@ from django.contrib.auth import login as do_login
 from django import http
 from .models import *
 from django.forms.models import model_to_dict
+from django.forms import formset_factory
 # Create your views here.
 from django.http import HttpResponse
 from django.http import JsonResponse
@@ -26,14 +27,14 @@ def updateRequest(request):
     today_min = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
     today_max = datetime.datetime.combine(datetime.date.today(), datetime.time.max)
     recibidos = Pedido.objects.filter(id_estado=1
-    #,Fecha__range=(today_min, today_max)
+    ,Fecha__range=(today_min, today_max)
     )
     enproceso = Pedido.objects.filter(id_estado=2
-    #,Fecha__range=(today_min, today_max)
+    ,Fecha__range=(today_min, today_max)
     )
-    finalizados = Pedido.objects.filter(id_estado=3#,Fecha__range=(today_min, today_max)
+    finalizados = Pedido.objects.filter(id_estado=3,Fecha__range=(today_min, today_max)
     )
-    pagados = Pedido.objects.filter(id_estado=4#,Fecha__range=(today_min, today_max)
+    pagados = Pedido.objects.filter(id_estado=4,Fecha__range=(today_min, today_max)
     )
     pedidos = []
     lista_recibidos = []
@@ -45,7 +46,7 @@ def updateRequest(request):
         detalle=[]
         for row2 in detalles:
             detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
-            'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
+            'Producto':row2.id_producto.Nombre})
         lista_recibidos.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha,
         'Cliente':row.id_cliente.Nombres+' '+row.id_cliente.Primer_Apellido,'Telefono':row.id_cliente.Telefono,
         'Direccion':row.id_cliente.Direccion})
@@ -53,8 +54,7 @@ def updateRequest(request):
         detalles= Detalle_Pedido.objects.filter(id_pedido=row.id_pedido)
         detalle=[]
         for row2 in detalles:
-            detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
-            'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
+            detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,'Producto':row2.id_producto.Nombre})
         lista_enproceso.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha,
         'Cliente':row.id_cliente.Nombres+' '+row.id_cliente.Primer_Apellido,'Telefono':row.id_cliente.Telefono,
         'Direccion':row.id_cliente.Direccion})
@@ -63,7 +63,7 @@ def updateRequest(request):
         detalle=[]
         for row2 in detalles:
             detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
-            'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
+            'Producto':row2.id_producto.Nombre})
         lista_finalizados.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha,
         'Cliente':row.id_cliente.Nombres+' '+row.id_cliente.Primer_Apellido,'Telefono':row.id_cliente.Telefono,
         'Direccion':row.id_cliente.Direccion})
@@ -72,7 +72,7 @@ def updateRequest(request):
         detalle=[]
         for row2 in detalles:
             detalle.append({'Cantidad':row2.Cantidad,'Precio':row2.Precio,
-            'Observacion':row2.Observacion,'Producto':row2.id_producto.Nombre})
+            'Producto':row2.id_producto.Nombre})
         lista_pagados.append({'id_pedido':row.id_pedido, 'Detalle_pedido':detalle,'Fecha':row.Fecha,
         'Cliente':row.id_cliente.Nombres+' '+row.id_cliente.Primer_Apellido,'Telefono':row.id_cliente.Telefono,
         'Direccion':row.id_cliente.Direccion})
@@ -80,10 +80,33 @@ def updateRequest(request):
     list_json = json.dumps(pedidos,default=myconverter) #dump list as JSON
     return JsonResponse(pedidos,safe=False)
 
-
+def success(request):
+    return render(request, 'sitio/success.html')
 def index(request):
+    if request.method == 'GET':
+        # we don't want to display the already saved model instances
+        formset = DetallePedidoFormset(queryset=Detalle_Pedido.objects.none())
+        formDatos = ClienteForm()
+    elif request.method == 'POST':
+        formDatos = ClienteForm(request.POST)
+        formset = DetallePedidoFormset(request.POST)
+        if formset.is_valid() and formDatos.is_valid():
+            aux = formDatos.save()
+            recibido = Estado.objects.get(pk=1)
+            miPedido = Pedido(id_cliente=aux,id_estado=recibido,Fecha=datetime.datetime.today())
+            miPedido.save()
+            print(miPedido)
+            for form in formset:
+                # only save if name is present
+                if form.cleaned_data.get('id_producto'):
+                    aux2 = form.save(commit=False)
+                    aux2.id_pedido= miPedido
+                    aux2.save()
+            return redirect('/success')
     context = {
-        'images':Images.objects.all()
+        'images':Images.objects.all(),
+        'formset':formset,
+        'formDatos':formDatos
     }
     return render(request, 'sitio/index.html',context)
 
