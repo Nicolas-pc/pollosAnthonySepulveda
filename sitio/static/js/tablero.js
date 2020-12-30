@@ -65,7 +65,7 @@ django.jQuery(document).ready(function () {
         keyboard: false
     })
     update();
-    setInterval(update(), 20000);
+    setInterval(update, 20000);
 })
 
 function closeModal() {
@@ -75,7 +75,6 @@ function closeModal() {
 function openModal(id_pedido){
     $("#myModal").modal('show');
     this.target=id_pedido;
-    console.log(this.target)
 }
 function changeState() {
     req=this.target;
