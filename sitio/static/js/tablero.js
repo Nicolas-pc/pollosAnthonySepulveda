@@ -17,6 +17,7 @@ function update() {
                     hora = new Date(i.Fecha).getHours()
                     hora = ("0" + hora).slice(-2);
                     minutos = new Date(i.Fecha).getMinutes()
+                    minutos = ("0" + minutos).slice(-2);
                     output = `<div class="card" id="${i.id_pedido}" style="width: 18rem;">
                     <div class="n_pedido">N:${i.id_pedido}</div>
                     <div class="hora">
